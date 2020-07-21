@@ -1,6 +1,36 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <style>
+      path:hover {
+        fill: orange;
+      }    
+    #tooltip { 
+        position: absolute;
+        width: 200px;
+        height: auto;
+        padding: 10px;
+        background-color: white;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+        -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+        box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+        pointer-events: none;   
+    }
+    #tooltip.hidden {
+        display: none;
+    }
+    #tooltip p {
+        margin: 0;
+        font-family: sans-serif;
+        font-size: 16px;
+        line-height: 20px;
+    }
+
+    </style>
     </head>
     <body>
         <h1 style = "text-align:center; font-size:40px"><bold> Covid-19 Outbreak Cases in Brazil as of July, 2020 </bold></h1>
@@ -17,6 +47,15 @@
             <li><a href="https://gadm.org/download_country_v3.html">Brazil json data</a></li>
             <li><a href="http://www.conass.org.br/painelconasscovid19/">Brazil confirmed cases data</a></li>
         </ul>
+        
+        <div id="tooltip" class="hidden">
+            <center><strong><span id="location"></span></strong></center>
+            <div class="row">
+                <div class="column middle" style="text-align: center">Confirmed cases : <span id="c_num"></span></div>
+            </div>
+        </div>
+        
+        
         <span><b>Duy Le</b></span><br>
 
     </body>

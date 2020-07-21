@@ -15,6 +15,10 @@ var svg = d3.select("body")
         .attr("width", w)
         .attr("height", h);
 
+var tooltip = d3.select("body").append("div") 
+        .attr("class", "tooltip")       
+        .style("opacity", 0);
+
 var color = d3.scaleThreshold() //maps the domain to the range of colors specified
                 .domain([10, 25, 50, 100, 300, 450]) // define the domain (population density)
                 .range(["rgb(227, 238, 210)", "rgb(188, 214, 189)", "rgb(90, 150, 134)", "rgb(68, 113, 130)", "rgb(55, 88, 129)", "rgb(40, 57, 129)"]); //define the range of 6 colors
@@ -47,6 +51,33 @@ d3.csv("brazil_covid_cases.csv").then(function(data){
           .enter()
           .append("path")
           .attr("d", path)
+//          .on("mouseover", function(d) {    
+//            tooltip.transition()    
+//            .duration(200)    
+//            .style("opacity", .9);    
+//            tooltip.html(d.properties.NAME_1)  
+//            .style("left", (d3.event.pageX) + "px")   
+//            .style("top", (d3.event.pageY - 28) + "px");  
+//          })          
+//          .on("mouseout", function(d) {   
+//            tooltip.transition()    
+//            .duration(500)    
+//            .style("opacity", 0); 
+//          })
+          .on("mouseover", function(d) { //mouseover portion for tooltip
+           d3.select("#tooltip") //passing the d.country value to the id #country ( that is in the html body)     
+             .style("left", (d3.event.pageX + 10) + "px")             
+             .style("top", (d3.event.pageY -10) + "px")
+             .select("#location")
+             .text(d.properties.NAME_1);
+           d3.select("#tooltip") 
+             .select("#c_num")
+             .text(d.properties.CC_1);  
+            d3.select("#tooltip").classed("hidden", false); //set the tooltip box that is created in the css file to hidden when the mouse is not hovering the circles on scatterplot
+           })
+           .on('mouseout', function() { //the tool tip label will disappear as soon as the mouse move away from the circle
+               d3.select("#tooltip").classed("hidden", true);
+          })
           .attr('stroke-width', function(d){ return 0.5;}) //define the thickness of the lines that separates the states
           .attr('stroke', function(d){ return 'black';}) // color of the lines
           .attr("fill", function(d) {
@@ -54,8 +85,9 @@ d3.csv("brazil_covid_cases.csv").then(function(data){
             console.log(d.properties.NAME_1);
             console.log(color(d.properties.CC_1));
             return color(d.properties.CC_1); // fill in the color of the states using color based on their respective population data
+
        })
-   });  
+   });
 });
 
 
